@@ -1,6 +1,9 @@
 #ifndef DSSS_GLOBAL_H
 #define DSSS_GLOBAL_H
 #include "common.h"
+
+extern "C" {
+
 #define HW_MTU  20  //max transmit bits in hardware packet
 #define HW_SSF  7    // spread-spectum factor
 #define HW_PTC  0.002f// pn-code time period
@@ -18,9 +21,9 @@
 #define  gGetHW_SFS() HW_SFS
 #define  gGetHW_PNT() HW_PNT
 
-char *gGetRecvBufferHandle();
+double *gGetRecvBufferHandle();
 
-int gFillRecvBuffer(const char *data,u_int16_t len);
+int gFillRecvBuffer(const double *data, u_int16_t len);
 void gClearRecvBuffer();
 
 recv_status_t gGetStatus(void);
@@ -37,5 +40,7 @@ void gSetStatus(recv_status_t nextStatus);
 // local LFM
 double *gGetLocalLFMHandle();
 int gGetLocalLFMLength();
+
+}
 
 #endif

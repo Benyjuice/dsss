@@ -1,7 +1,7 @@
 #include "common.h"
 #include "dsss-global.h"
 
-void process_line(const char *data,int len)
+void process_line(const double *data,int len)
 {
     /*
     * entry of data process

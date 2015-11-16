@@ -37,7 +37,7 @@ void maxFftwComplex(const fftw_complex *data,int len, double *maxV, int *pos)
 
 }
 
-int searchLFMSync(const char *data, int len)
+int searchLFMSync(const double *data, int len)
 {
     /*
      * return -1 if no SYNC found
@@ -46,8 +46,8 @@ int searchLFMSync(const char *data, int len)
 
     fftw_plan p;
     fftw_complex *in1,*out1,*in2,*out2;
-    u_int16_t *data1 = (u_int16_t *)data;
-    u_int16_t *data2 = (u_int16_t *)gGetLocalLFMHandle();
+    double *data1 = data;
+    double *data2 = gGetLocalLFMHandle();
 
     int len1=len;
     int len2=gGetLocalLFMLength();
@@ -75,12 +75,12 @@ int searchLFMSync(const char *data, int len)
 
     //init data
     for (int i=0;i<len1;i++) {
-        in1[i][0] = data1[i]/1.0;
+        in1[i][0] = data1[i];
         in1[i][1]=0;
     }
 
     for (int i=0;i<len2;i++) {
-        in2[i][0] = data2[len2-i-1]/1.0;
+        in2[i][0] = data2[len2-i-1];
         in2[i][1] = 0;
     }
 
@@ -126,11 +126,12 @@ int searchLFMSync(const char *data, int len)
 
 }
 
-void despread(const char *data,int len)
+void despread(const double *data,int len)
 {
     /*
      * despread demod etc.
     */
+
     // step 1. passband to bassband
 
 

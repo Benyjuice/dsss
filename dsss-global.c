@@ -10,7 +10,7 @@ static recv_status_t status=DEFAULT;
 
 // efficient signal data buffer
 // buffer size = HW_PNT*HW_MTU*HW_SSF*2
-static char signalRecv[HW_PNT*HW_MTU*HW_SSF*2];
+static double signalRecv[HW_PNT*HW_MTU*HW_SSF];
 
 #define LFM_LENGTH  400
 static double localLFM[LFM_LENGTH]={0.0f};
@@ -32,14 +32,14 @@ void gSetStatus(recv_status_t nextStatus)
     status = nextStatus;
 }
 
-char *gGetRecvBufferHandle()
+double *gGetRecvBufferHandle()
 {
     return signalRecv;
 }
 
 
 static int head=0;
-int gFillRecvBuffer(const char *data, u_int16_t len)
+int gFillRecvBuffer(const double *data, u_int16_t len)
 {
     /*
     * copy data's data to signalRecvBuffer,return the size that copied
@@ -51,12 +51,12 @@ int gFillRecvBuffer(const char *data, u_int16_t len)
         len = gGetRecvBufferSize()-head;
 
         //TODO chage it to arm_cpy()
-        memcpy(signalRecv+head,data,len);
+        memcpy(signalRecv+head,data,len*sizeof(double));
         head = 0;
         return len;
     }
 
-    memcpy(signalRecv+head,data,len);
+    memcpy(signalRecv+head,data,len*sizeof(double));
     head += len;
     return -1;
 }
